@@ -8,16 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-/*TODO
- * se considera o baza de date in care avem:
-articol (id, nume)
-magazin (id, nume)
-o tabela cu preturile articolelor la magazine diferite (article_id, magazin_id, pret)
-1. creati tabelele corespunzatoare in SQL developer
-2. inserati date de test in cele 3 tabele din Java
-3. faceti un query unde se poate vedea pentru fiecare articol la ce magazin are pretul cel mai mic si afisati rezultatele din Java
- */
-
 public class ArticolExample1 {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
@@ -68,11 +58,9 @@ public class ArticolExample1 {
 					Statement s = con.createStatement();
 					ResultSet rs = s.executeQuery(
 							"select a.nume, min(p.pret) from articol a left join preturi p on a.id = p.article_id where p.pret is not null group by a.nume");
-
 					while (rs.next()) {
 						System.out.println(rs.getString(1) + " " + rs.getInt(2));
 					}
-
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -81,6 +69,7 @@ public class ArticolExample1 {
 			}
 
 			default:
+				scan.close();
 				System.out.println("Bye.");
 			}
 
@@ -89,7 +78,6 @@ public class ArticolExample1 {
 
 	public static void add(Connection con, String table) {
 		Scanner scan = new Scanner(System.in);
-
 		if (table.equals("Preturi")) {
 			System.out.print("Insert Articol_id : ");
 			int id_a = Integer.parseInt(scan.nextLine());
